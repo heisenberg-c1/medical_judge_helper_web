@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import login from '@/views/login/login.vue'
 import Main from '@/views/main/main.vue'
+import exportPreview from '@/views/exportPreview/exportPreview.vue'
+
 const routes = [
   {
     path : '/login',
@@ -15,6 +17,12 @@ const routes = [
   {
     path: '/',
     redirect: '/login' 
+  },
+  {
+    path : '/exportPreview',
+    name : 'exportPreview',
+    component : exportPreview,
+    props: true 
   }
 ]
 

@@ -18,7 +18,21 @@ const handleLeftTableRowClick = (row) => {
   emit('row-click', row); 
 };
 
+const handleExport = () => {
+  emit('export'); 
+};
 
+const handleSave = () => {
+  emit('save'); 
+};  
+
+const handleDelete = () => {
+  emit('delete'); 
+};
+
+const handleAIAnalyze = () => {
+  emit('ai-analyze'); 
+};
 </script>
 
 <template>
@@ -54,21 +68,21 @@ const handleLeftTableRowClick = (row) => {
         <!-- 下方按钮操作区 -->
         <div class="btn-grid">
             <button>
-                <el-icon>
+                <el-icon @click="handleSave">
                     <Document />
                 </el-icon> 保存
             </button>
-            <button>
+            <button @click="handleDelete">
                 <el-icon>
                     <Delete />
                 </el-icon> 删除
             </button>
-            <button>
+            <button @click="handleExport"> 
                 <el-icon>
                     <Download />
                 </el-icon> 导出
             </button>
-            <button>
+            <button @click="handleAIAnalyze">
                 <el-icon>
                     <Cpu />
                 </el-icon> AI分析

@@ -37,12 +37,12 @@ function isAbnormal(row) {
 <template>
     <el-aside class="right-bar">
         <div style="height: 90vh; overflow-y: auto;">
-            <el-table :data="props.tableData" class="right-table" border stripe highlight-current-row>
+            <el-table :data="props.tableData" class="right-table"  stripe highlight-current-row>
                 <!-- 细胞名称 -->
                 <el-table-column fixed prop="cellName" label="细胞名称" width="120" show-overflow-tooltip />
 
                 <!-- 血片值 -->
-                <el-table-column prop="bloodSmear" label="血片(%)" align="center" width="70">
+                <el-table-column prop="bloodSmear" label="血片(%)" align="center" width="110">
                     <template #default="scope">
                         <el-tag>
                             {{ scope.row.bloodSmear }}
@@ -50,7 +50,7 @@ function isAbnormal(row) {
                     </template>
                 </el-table-column>
                 <!-- 髓片值 -->
-                <el-table-column prop="boneMarrowResult" label="髓片(%)" align="center" width="70">
+                <el-table-column prop="boneMarrowResult" label="髓片(%)" align="center" width="110">
                     <template #default="scope">
                         <el-tag :type="isAbnormal(scope.row) ? 'danger' : 'success'">
                             {{ scope.row.boneMarrowResult }}
@@ -60,7 +60,7 @@ function isAbnormal(row) {
                 </el-table-column>
 
                 <!--髓片参考范围值 -->
-                <el-table-column label="参考范围" align="center" width="110">
+                <el-table-column label="参考范围" align="center" width="120">
                     <template #default="scope">
                         {{ calculateReferenceRange(scope.row) }}
                     </template>

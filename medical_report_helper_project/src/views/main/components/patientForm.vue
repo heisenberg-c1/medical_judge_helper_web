@@ -3,7 +3,7 @@ import { defineProps, defineEmits, ref, watch } from 'vue';
 const props = defineProps({
   form: {
     type: Object,
-    required: true, 
+    required: true,
     default: () => ({})
   },
   // 科室
@@ -31,16 +31,6 @@ const props = defineProps({
     type: Array,
     default: () => []
   },
-  // 日期禁用逻辑
-  disabledDate: {
-    type: Function,
-    required: true
-  },
-  // 日期快捷选项
-  shortcuts: {
-    type: Array,
-    default: () => []
-  },
   // AI分析
   difyOutput: {
     type: String,
@@ -61,9 +51,23 @@ const props = defineProps({
 
 const emit = defineEmits(['update:form', 'update:textarea']);
 
-const localForm = ref({ ...props.form});
+const localForm = ref({ ...props.form });
 
 const localTextarea = ref(props.textarea);
+
+const shortcuts = [
+  {
+    text: '今天',
+    value: () => {
+      return new Date();
+    },
+  },
+];
+
+const disabledDate = (time) => {
+  return time.getTime() > Date.now()
+};
+
 
 // 监听父组件数据变化
 watch(
@@ -71,7 +75,7 @@ watch(
   (newVal) => {
     localForm.value = { ...newVal };
   },
-  { deep: true } 
+  { deep: true }
 );
 
 watch(
@@ -130,7 +134,8 @@ watch(
         <el-col :span="8">
           <el-form-item label="性别">
             <el-select v-model="localForm.gender">
-              <el-option v-for="item in props.genderOptions" :key="item.value" :label="item.label" :value="item.value" />
+              <el-option v-for="item in props.genderOptions" :key="item.value" :label="item.label"
+                :value="item.value" />
             </el-select>
           </el-form-item>
         </el-col>
@@ -146,7 +151,8 @@ watch(
         <el-col :span="8">
           <el-form-item label="医院">
             <el-select v-model="localForm.hospital">
-              <el-option v-for="item in props.hospitalOptions" :key="item.value" :label="item.label" :value="item.value" />
+              <el-option v-for="item in props.hospitalOptions" :key="item.value" :label="item.label"
+                :value="item.value" />
             </el-select>
           </el-form-item>
         </el-col>
@@ -174,15 +180,15 @@ watch(
         <el-col :span="8">
           <el-form-item label="骨髓来源">
             <el-select v-model="localForm.boneSource">
-              <el-option v-for="item in props.sourceOptions" :key="item.value" :label="item.label" :value="item.value" />
+              <el-option v-for="item in props.sourceOptions" :key="item.value" :label="item.label"
+                :value="item.value" />
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="送检日期">
-            <el-date-picker v-model="localForm.sendDate" type="date" 
-            :disabled-date="props.disabledDate" 
-            :shortcuts="props.shortcuts" />
+            <el-date-picker v-model="localForm.sendDate" type="date" :disabled-date="disabledDate"
+              :shortcuts="shortcuts" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -192,10 +198,7 @@ watch(
         <el-col :span="8">
           <el-form-item label="报告医生">
             <el-select v-model="localForm.reportDoc">
-              <el-option v-for="item in props.docOptions" 
-              :key="item.value" 
-              :label="item.label" 
-              :value="item.value" />
+              <el-option v-for="item in props.docOptions" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
           </el-form-item>
         </el-col>
@@ -208,9 +211,8 @@ watch(
         </el-col>
         <el-col :span="8">
           <el-form-item label="报告日期">
-            <el-date-picker v-model="localForm.reportDate" type="date" 
-            :disabled-date="props.disabledDate"
-            :shortcuts="props.shortcuts" />
+            <el-date-picker v-model="localForm.reportDate" type="date" :disabled-date="disabledDate"
+              :shortcuts="shortcuts" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -226,14 +228,9 @@ watch(
         <span>报告图片</span>
         <div class="image-scroll-wrapper">
           <div class="image-list">
-            <el-image v-for="(imgUrl, index) in props.imageList" 
-            :key="index" 
-            :src="imgUrl" fit="cover"
-            style="width: 200px; height: 160px;  margin-right: 10px;" 
-            :preview-src-list="props.imageList"
-            :show-progress="true" 
-            :initial-index="0" 
-            :preview-teleported="true" />
+            <el-image v-for="(imgUrl, index) in props.imageList" :key="index" :src="imgUrl" fit="cover"
+              style="width: 200px; height: 160px;  margin-right: 10px;" :preview-src-list="props.imageList"
+              :show-progress="true" :initial-index="0" :preview-teleported="true" />
           </div>
         </div>
       </div>
@@ -256,11 +253,8 @@ watch(
   <!-- 意见输入区 -->
   <div>
     <el-card shadow="hover">
-      <el-input v-model="localTextarea" 
-      style="width: 100%" 
-      :autosize="{ minRows: 2, maxRows: 4 }" 
-      type="textarea"
-      placeholder="请输入医疗意见" />
+      <el-input v-model="localTextarea" style="width: 100%" :autosize="{ minRows: 2, maxRows: 4 }" type="textarea"
+        placeholder="请输入医疗意见" />
     </el-card>
 
   </div>
